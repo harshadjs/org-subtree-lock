@@ -1,0 +1,64 @@
+#+TITLE: org-subtree-lock
+#+AUTHOR: Harshad Shirwadkar
+#+EMAIL: harshadshirwadkar@gmail.com
+
+org-subtree-lock is a lightweight Emacs package that provides read-only protection for specific Org-mode subtrees using tags.
+
+** Features
+
+Tag-based locking: Simply tag a heading (default: =:locked:=) to make the entire subtree read-only.
+
+Persistent protection: Locks are automatically re-applied when opening or saving files.
+
+Safety: Uses the ~read-only~ text property to prevent accidental edits while allowing programmatic changes (like automated archiving) via ~inhibit-read-only~.
+
+Minor Mode: Toggle the behavior globally or per-buffer.
+
+** Installation
+
+*** Local Installation
+Clone this repository to your local machine and add it to your load path:
+
+#+begin_src elisp
+(add-to-list 'load-path "/path/to/org-subtree-lock")
+(require 'org-subtree-lock)
+#+end_src
+
+*** Using straight.el
+#+begin_src elisp
+(straight-use-package
+ '(org-subtree-lock :type git :host github :repo "harshadjs/org-subtree-lock"))
+#+end_src
+
+*** Using use-package
+#+begin_src elisp
+(use-package org-subtree-lock
+  :hook (org-mode . org-subtree-lock-mode)
+  :bind (:map org-mode-map
+              ("C-c L" . org-subtree-lock-toggle)))
+#+end_src
+
+** Usage
+
+Enable the mode: Run ~M-x org-subtree-lock-mode~ or add it to your ~org-mode-hook~.
+
+Toggle a lock: Navigate to any heading and press ~C-c L~ (or run ~M-x org-subtree-lock-toggle~).
+
+Automatic Scanning: The package will scan the buffer and apply locks whenever you open a file or save your changes.
+
+** Configuration
+
+You can customize the tag used for locking. If you prefer =:frozen:= over =:locked:=, add this to your configuration:
+
+#+begin_src elisp
+(setq org-subtree-lock-tag "frozen")
+#+end_src
+
+Alternatively, use the Emacs customization interface:
+~M-x customize-group RET org-subtree-lock~
+
+** Why use this?
+While Org-mode has many ways to archive or protect data, sometimes you just want to "freeze" a specific org mode subtree to prevent typos or accidental deletions without moving the text to an archive file. This package keeps your data where it belongs but adds a layer of safety.
+
+** License
+GPLv3
